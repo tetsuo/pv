@@ -106,7 +106,7 @@ class RequestHandler(object):
         
         # @todo: Bunu her defasinda yuklemeye gerek var mi? 
         if self.options.get('translate'):
-            i18n.load_translations(self.application.settings.get('translations_path'))
+            locale.load_translations(self.application.settings.get('translations_path'))
 
         try:
             # If XSRF cookies are turned on, reject form submissions without
@@ -260,7 +260,7 @@ class RequestHandler(object):
             "%(explanation)s <br />&mdash;</p>" \
             "%(traceback)s</body></html>" % {
             "code": status_code,
-            "message": webob.status_reasons[status_code],
+            "message": webob.util.status_reasons[status_code],
             "explanation": explanation,
             "traceback": traceback,}
 
@@ -403,8 +403,8 @@ class RequestHandler(object):
             if locales:
                 locales.sort(key=lambda (l, s): s, reverse=True)
                 codes = [l[0] for l in locales]
-                return i18n.get(*codes)
-        return i18n.get(default)
+                return locale.get(*codes)
+        return locale.get(default)
 
     # Templates
 
